@@ -4,7 +4,7 @@
 
 #define    PWM_VALUE           800
 #define    TMR_T               2099
-#define    SYSCLOCK            168000000
+#define    SYSCLOCK            16000000
 
 #include "stm32f1xx.h"
 
@@ -40,7 +40,7 @@ void delay_ms(uint32_t ms)
 int FRQ_CALCULATOR(int frequency)
 {
 	//int SysClockFreq = SystemCoreClockUpdate();
-	int calFreq = SYSCLOCK*0.5/((TIM1->PSC+1)*frequency);
+	int calFreq = SYSCLOCK/((TIM1->PSC+1)*frequency);
 
 	return calFreq;
 

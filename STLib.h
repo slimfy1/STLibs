@@ -7,7 +7,7 @@
 
 #define    PWM_VALUE     	800
 #define    TMR_T         	2099
-#define    SYSCLOCK      	16000000
+#define    SYSCLOCK      	8000000
 
 #define    SERVO_1_PIN      CCR1
 
@@ -15,7 +15,7 @@
 
 #include "PWM/pwm.h"
 #include "Servo/Servo.h"
-#include "stm32f1xx.h"
+#include "stm32f4xx.h"
 
 int SysClockFreq;
 

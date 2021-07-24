@@ -43,6 +43,6 @@ typedef struct {
 } SERVO_HandleTypedef;
 
 void servo_init(uint8_t set_servo_tim, uint8_t set_servo_channel,  SERVO_PARAMETERS *servo_params);
-void servo_set_angle(uint8_t angle, SERVO_PARAMETERS *servo_params);
+void servo_set_angle(uint16_t angle, SERVO_PARAMETERS *servo_params);
 void servo_disable_all();
 #endif

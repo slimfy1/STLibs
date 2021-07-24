@@ -10,10 +10,10 @@ int FRQ_CALCULATOR(int frequency)
 	return calFreq;
 }
 
-int DUTY_CALCULATE(uint8_t duty_percentage)
+int DUTY_CALCULATE(uint16_t duty_percentage)
 {
 	uint16_t arr_value = TIM1->ARR;
-	uint16_t arr_duty_value = arr_value*duty_percentage*0.1;
+	uint16_t arr_duty_value = arr_value*(duty_percentage*0.01);
 
 	return arr_duty_value;
 }

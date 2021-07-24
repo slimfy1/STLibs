@@ -7,6 +7,8 @@ void servo_init(uint8_t set_servo_tim, uint8_t set_servo_channel,  SERVO_PARAMET
 	switch(set_servo_tim){
 		case 1:
 			servo_params->servo_timer = TIMER1;
+			TIM_EN();
+			SET_BIT(TIM1->CCER, TIM_CCER_CC1P);
 			TIM1->CCR1 = 0;
 			TIM1->CCR2 = 0;
 			TIM1->CCR3 = 0;
@@ -74,22 +76,25 @@ void servo_init(uint8_t set_servo_tim, uint8_t set_servo_channel,  SERVO_PARAMET
 
 }
 
-void servo_set_angle(uint8_t angle, SERVO_PARAMETERS *servo_params)
+void servo_set_angle(uint16_t angle, SERVO_PARAMETERS *servo_params)
 {
+	float one_ms = (TIM1->ARR)/20;
+	float angle_ms = angle*(one_ms/180);
+	uint16_t request_angle = one_ms+angle_ms;
 	if(servo_params->servo_timer == 1)
 	{
 		switch(servo_params->servo_channel){
 			case 1:
-				TIM1->CCR1 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM1->CCR1 = request_angle;
 				break;
 			case 2:
-				TIM1->CCR2 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM1->CCR2 = request_angle;
 				break;
 			case 3:
-				TIM1->CCR3 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM1->CCR3 = request_angle;
 				break;
 			case 4:
-				TIM1->CCR4 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM1->CCR4 = request_angle;
 				break;
 			/*
 			case 5:
@@ -106,16 +111,16 @@ void servo_set_angle(uint8_t angle, SERVO_PARAMETERS *servo_params)
 	{
 		switch(servo_params->servo_channel){
 			case 1:
-				TIM2->CCR1 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM2->CCR1 = request_angle;
 				break;
 			case 2:
-				TIM2->CCR2 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM2->CCR2 = request_angle;
 				break;
 			case 3:
-				TIM2->CCR3 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM2->CCR3 = request_angle;
 				break;
 			case 4:
-				TIM2->CCR4 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM2->CCR4 = request_angle;
 				break;
 			/*
 			case 5:
@@ -132,16 +137,16 @@ void servo_set_angle(uint8_t angle, SERVO_PARAMETERS *servo_params)
 	{
 		switch(servo_params->servo_channel){
 			case 1:
-				TIM3->CCR1 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM3->CCR1 = request_angle;
 				break;
 			case 2:
-				TIM3->CCR2 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM3->CCR2 = request_angle;
 				break;
 			case 3:
-				TIM3->CCR3 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM3->CCR3 = request_angle;
 				break;
 			case 4:
-				TIM3->CCR4 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM3->CCR4 = request_angle;
 				break;
 			/*
 			case 5:
@@ -158,16 +163,16 @@ void servo_set_angle(uint8_t angle, SERVO_PARAMETERS *servo_params)
 	{
 		switch(servo_params->servo_channel){
 			case 1:
-				TIM4->CCR1 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM4->CCR1 = request_angle;
 				break;
 			case 2:
-				TIM4->CCR2 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM4->CCR2 = request_angle;
 				break;
 			case 3:
-				TIM4->CCR3 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM4->CCR3 = request_angle;
 				break;
 			case 4:
-				TIM4->CCR4 = DUTY_CALCULATE(5+(0.0556*angle));
+				TIM4->CCR4 = request_angle;
 				break;
 			/*
 			case 5:

@@ -1,0 +1,4 @@
+STLib.c:5:6:DWT_Init	4	static
+STLib.c:15:26:delta	16	static
+STLib.c:20:6:delay_us	24	static
+STLib.c:27:6:delay_ms	24	static

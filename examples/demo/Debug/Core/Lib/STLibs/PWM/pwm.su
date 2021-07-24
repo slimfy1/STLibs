@@ -1,0 +1,5 @@
+pwm.c:5:5:FRQ_CALCULATOR	24	static
+pwm.c:13:5:DUTY_CALCULATE	32	static
+pwm.c:20:6:TIM_EN	4	static
+pwm.c:33:6:SET_PWM	16	static
+pwm.c:39:6:SET_FRQ	24	static

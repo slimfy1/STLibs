@@ -1,12 +1,6 @@
-#define    DWT_CYCCNT    *(volatile unsigned long *)0xE0001004
-#define    DWT_CONTROL   *(volatile unsigned long *)0xE0001000
-#define    SCB_DEMCR     *(volatile unsigned long *)0xE000EDFC
+#include "STLib.h"
 
-#define    PWM_VALUE           800
-#define    TMR_T               2099
-#define    SYSCLOCK            16000000
-
-#include "stm32f1xx.h"
+int SysClockFreq;
 
 void DWT_Init(void)
 {
@@ -35,43 +29,4 @@ void delay_ms(uint32_t ms)
       uint32_t t0 =  DWT->CYCCNT;
       uint32_t us_count_tic =  ms * (SystemCoreClock/1000);
       while (delta(t0, DWT->CYCCNT) < us_count_tic) ;
-}
-
-int FRQ_CALCULATOR(int frequency)
-{
-	//int SysClockFreq = SystemCoreClockUpdate();
-	int calFreq = SYSCLOCK/((TIM1->PSC+1)*frequency);
-
-	return calFreq;
-
-}
-
-void TIM_EN()
-{
-	TIM1->CCMR1=TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_0 | TIM_CCMR1_OC1PE | TIM_CCMR1_OC2M_2 | TIM_CCMR1_OC2M_1 | TIM_CCMR1_OC2PE;
-	TIM1->CCER=TIM_CCER_CC1E | TIM_CCER_CC2E;
-	TIM1->BDTR=TIM_BDTR_MOE;
-	//TIM1->CCR1=TMR_T - PWM_VALUE;
-	//TIM1->CCR2=PWM_VALUE;
-	TIM1->ARR=TMR_T;
-	TIM1->CR1=TIM_CR1_ARPE | TIM_CR1_CMS_1 | TIM_CR1_CMS_0;
-	TIM1->CR1|=TIM_CR1_CEN;
-	TIM1->EGR=TIM_EGR_UG;
-}
-
-void SET_PWM(int pwm)
-{
-	TIM1->CCR1=TMR_T - pwm;
-	TIM1->CCR2=pwm;
-}
-
-void SET_FRQ(int frq, int pwm)
-{
-	//CLEAR_BIT(TIM1->CCER, TIM_CCER_CC1E | TIM_CCER_CC2E);
-	int frqVal = FRQ_CALCULATOR(frq);
-	int pwmVal = frqVal*pwm*0.01;
-	TIM1->CCR1=frqVal - pwmVal;
-	TIM1->CCR2=pwmVal;
-	TIM1->ARR=frqVal;
-	//TIM1->CCER=TIM_CCER_CC1E | TIM_CCER_CC2E;
 }

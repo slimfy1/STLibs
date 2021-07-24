@@ -17,6 +17,8 @@ void servo_init(uint8_t set_servo_tim, uint8_t set_servo_channel,  SERVO_PARAMET
 			break;
 		case 2:
 			servo_params->servo_timer = TIMER2;
+			TIM_EN();
+			SET_BIT(TIM1->CCER, TIM_CCER_CC1P);
 			TIM2->CCR1 = 0;
 			TIM2->CCR2 = 0;
 			TIM2->CCR3 = 0;
@@ -25,6 +27,8 @@ void servo_init(uint8_t set_servo_tim, uint8_t set_servo_channel,  SERVO_PARAMET
 			break;
 		case 3:
 			servo_params->servo_timer = TIMER3;
+			TIM_EN();
+			SET_BIT(TIM1->CCER, TIM_CCER_CC1P);
 			TIM3->CCR1 = 0;
 			TIM3->CCR2 = 0;
 			TIM3->CCR3 = 0;
@@ -33,6 +37,8 @@ void servo_init(uint8_t set_servo_tim, uint8_t set_servo_channel,  SERVO_PARAMET
 			break;
 		case 4:
 			servo_params->servo_timer = TIMER4;
+			TIM_EN();
+			SET_BIT(TIM1->CCER, TIM_CCER_CC1P);
 			TIM4->CCR1 = 0;
 			TIM4->CCR2 = 0;
 			TIM4->CCR3 = 0;
@@ -79,8 +85,9 @@ void servo_init(uint8_t set_servo_tim, uint8_t set_servo_channel,  SERVO_PARAMET
 void servo_set_angle(uint16_t angle, SERVO_PARAMETERS *servo_params)
 {
 	float one_ms = (TIM1->ARR)/20;
-	float angle_ms = angle*(one_ms/180);
-	uint16_t request_angle = one_ms+angle_ms;
+	float half_ms = one_ms/2;
+	float angle_ms = angle*((2*one_ms)/180);
+	uint16_t request_angle = half_ms+angle_ms;
 	if(servo_params->servo_timer == 1)
 	{
 		switch(servo_params->servo_channel){
